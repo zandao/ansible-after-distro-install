@@ -1,0 +1,26 @@
+#!/usr/bin/zsh
+
+
+function mouse_present {
+  # if grep succeeds then return code = 0 or else return error 14
+  xinput list | grep -q Mouse && return 0 || return 14
+}
+
+function touchpad_id {
+  xinput list | grep -i touchpad | cut -f 2 | cut -d= -f 2
+  test ${pipestatus[2]} -eq 0
+}
+
+function touchpad_enable {
+  xinput set-prop $(touchpad_id) "Device Enabled" $1
+  # disables touchpad for 1.8s during typing
+  syndaemon -i 1.8 -t -K -R 
+}
+
+# Tests if Xorg is running
+if [ "$(pidof Xorg)" != "" ] ; then
+  # if mouse_present then disables touchpad or else touchpad is enabled
+  mouse_present && touchpad_enable 0 || touchpad_enable 1
+fi
+
+

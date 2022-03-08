@@ -1,0 +1,44 @@
+---
+- debug: msg="Installing asdf plugin {{ plugin.name }}"
+- name: install asdf plugins
+  shell: >
+    set -o pipefail &&
+    source "/home/{{ user }}/.asdf/asdf.sh" &&
+    asdf plugin add "{{ plugin.name }}"
+  args:
+    executable: /bin/bash
+  when: plugin.url is undefined
+  ignore_errors: true
+
+- name: install asdf plugins
+  shell: >
+    set -o pipefail &&
+    source "/home/{{ user }}/.asdf/asdf.sh" &&
+    asdf plugin add "{{ plugin.name }}" "{{ plugin.location }}"
+  args:
+    executable: /bin/bash
+  when: plugin.url is defined
+  ignore_errors: true
+
+- debug: msg="Installing asdf {{ plugin.name }} versions {{ plugin.versions }}"
+- name: install version
+  shell: >
+    set -o pipefail &&
+    source "/home/{{ user }}/.asdf/asdf.sh" &&
+    asdf install "{{ plugin.name }}" "{{ version }}"
+  args:
+    executable: /bin/bash
+  ignore_errors: true
+  loop: "{{ plugin.versions }}"
+  loop_control:
+    loop_var: version
+
+- debug: msg="Defining global version of {{ plugin.name }} ({{ plugin.global }})"
+- name: set global version
+  shell: >
+    set -o pipefail &&
+    source "/home/{{ user }}/.asdf/asdf.sh" &&
+    asdf global "{{ plugin.name }}" "{{ plugin.global }}"
+  args:
+    executable: /bin/bash
+  ignore_errors: true

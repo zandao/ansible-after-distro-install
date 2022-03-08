@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+ARGBASH_VERSION=2.10.0
+
+if ! type -P argbash ; then
+    sudo apt install -y -q autoconf
+    pushd "$INSTALL_TEMP" || echo "It may seem crazy, but $INSTALL_TEMP directory doesn't exist! 😱"
+    wget --no-check-certificate -O argbash-${ARGBASH_VERSION}.tar.gz https://github.com/matejak/argbash/archive/refs/tags/${ARGBASH_VERSION}.tar.gz
+    tar zxvf argbash-${ARGBASH_VERSION}.tar.gz
+    cd argbash-${ARGBASH_VERSION}/resources || echo "argbash not correctly downloaded"
+    sudo make install PREFIX=/usr
+    popd || echo "I'll be back"
+    sudo rm -rf "$INSTALL_TEMP/argbash-${ARGBASH_VERSION}*"
+    msg "Argbash installed"
+else
+    msg "Argbash is already installed"
+fi
+
