@@ -1,5 +1,4 @@
 .vscode
-install-pop-os
 *.retry
 .*.swp
 **/__pycache__/**
