@@ -194,23 +194,6 @@
       changed_when: false
       tags: package_installation
 
-    - name: ensures notebook packages are installed
-      apt:
-        name: "{{ item }}"
-      loop: "{{ notebook_packages }}"
-      when: '"BAT" in battery.stdout'
-      tags: package_installation
-
-    - name: gets GPU id
-      shell: >
-        set -o pipefail &&
-        sudo lshw -C display | sed -n -e 's/^.*product: //p'
-      args:
-        executable: /bin/bash
-      register: get_gpu
-      changed_when: false
-      tags: package_installation
-
     - name: ensures virtualization packages are installed [long task]
       apt:
         name: "{{ virtualization_packages }}"
