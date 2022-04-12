@@ -179,11 +179,6 @@
         name: "{{ node_dependencies }}"
       tags: package_installation
 
-    - name: ensures personal packages are installed
-      apt:
-        name: "{{ personal_packages }}"
-      tags: package_installation
-
     - name: ensures postgresql packages are installed [long task]
       apt:
         name: "{{ postgresql_packages }}"
@@ -216,27 +211,9 @@
       changed_when: false
       tags: package_installation
 
-    - name: ensures nvidia packages are installed
-      apt:
-        name: "{{ item }}"
-      loop: "{{ nvidia_packages }}"
-      when: '"NVidia" in get_gpu.stdout'
-      tags: package_installation
-
     - name: ensures virtualization packages are installed [long task]
       apt:
         name: "{{ virtualization_packages }}"
-      tags: package_installation
-
-    - name: ensures virtualization ext package is installed
-      apt:
-        name: "virtualbox-ext-pack"
-      tags:
-        - never
-
-    - name: ensures deep learning packages are installed
-      apt:
-        name: "{{ deep_learning_packages }}"
       tags: package_installation
 
     - name: ensures fonts-doid-fallback is not present
@@ -563,7 +540,7 @@
       lineinfile:
         path: /usr/bin/init-zram-swapping
         insertbefore: '^  echo $mem > /sys/block/zram${DEVNUMBER}/disksize'
-        line: ' echo $mem > /sys/block/zram${DEVNUMBER}/disksize'
+        line: '  echo lz4 > /sys/block/zram${DEVNUMBER}/comp_algorithm'
       tags: configuration
 
     # update-alternatives
@@ -584,9 +561,9 @@
       systemd: name=postgresql state=stopped enabled=no
       tags: optimization
 
-    # - name: ensures docker is not started
-    #   systemd: name=docker state=stopped enabled=no
-    #   tags: optimization
+    - name: ensures docker is not started
+      systemd: name=docker state=stopped enabled=no
+      tags: optimization
 
     - name: sets vm cache pressure
       sysctl:
@@ -816,7 +793,7 @@
       shell: >
         set -o pipefail &&
         source "{{ user_dir }}/.asdf/asdf.sh" &&
-        echo y | mix archive.install hex phx_new 1.5.9
+        echo y | mix archive.install hex phx_new 1.6.6
       args:
         executable: /bin/bash
       when: "'could not be found' in phx.stderr"

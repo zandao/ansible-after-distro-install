@@ -1,12 +1,9 @@
 ---
 appimage_packages:
-  - https://github.com/obsidianmd/obsidian-releases/releases/download/v0.13.19/Obsidian-0.13.19.AppImage
   - https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage
   - https://github.com/devhubapp/devhub/releases/download/v0.102.0/DevHub-0.102.0.AppImage
-  - https://releases.fontba.se/linux/FontBase-2.16.9.AppImage
   - https://github.com/jcf94/vizgraph/releases/download/v0.0.8/vizgraph-0.0.8-x86_64.AppImage
   - https://github.com/qarmin/czkawka/releases/download/4.0.0/linux_czkawka_gui.AppImage
-  - https://github.com/hvdwolf/jExifToolGUI/releases/download/1.10.0/jExifToolGUI-1.10.0-x86_64.AppImage
 
 apt_sources:
   - filename: "gnome-gmail"
@@ -19,11 +16,6 @@ apt_sources:
     keyring: "/etc/apt/trusted.gpg.d/assinador-serpro.gpg"
     validate_certs: "no"
     repo: "deb https://www.assinadorserpro.estaleiro.serpro.gov.br/repository/ universal stable"
-  - filename: "buildah"
-    url: "http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.10/Release.key"
-    keyring: "/etc/apt/trusted.gpg.d/buildah.gpg"
-    validate_certs: "no"
-    repo: "deb http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_20.10/ /"
   - filename: "docker-ce"
     url: "https://download.docker.com/linux/ubuntu/gpg"
     keyring: "/etc/apt/trusted.gpg.d/docker-ce.gpg"
@@ -39,11 +31,6 @@ apt_sources:
     keyring: "/etc/apt/trusted.gpg.d/google.gpg"
     validate_certs: "no"
     repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
-  - filename: "mediahuman"
-    keyserver: "pgp.mit.edu"
-    id: "D808832C7D19F1F3"
-    validate_certs: "no"
-    repo: "deb https://www.mediahuman.com/packages/ubuntu groovy main"
   - filename: "vscode"
     url: "https://packages.microsoft.com/keys/microsoft.asc"
     keyring: "/etc/apt/trusted.gpg.d/packages.microsoft.gpg"
@@ -62,15 +49,11 @@ asdf_plugins:
   - {name: "dust", versions: ["0.7.5"], global: "0.7.5"}
   - {name: "erlang", versions: ["24.2.1"], global: "24.2.1"}
   - {name: "elixir", versions: ["1.13.2-otp-24"], global: "1.13.2-otp-24"}
-  - {name: "exa", versions: ["0.10.1"], global: "0.10.1"}
   - {name: "helm", versions: ["3.8.0"], global: "3.8.0"}
   - {name: "k3d", versions: ["5.3.0"], global: "5.3.0"}
   - {name: "kubectl", versions: ["1.23.3"], global: "1.23.3"}
   - {name: "nodejs", versions: ["17.4.0"], global: "17.4.0"}
   - {name: "python", versions: ["3.7.7", "3.10.2"], global: "3.10.2"}
-  - {name: "ripgrep", versions: ["13.0.0"], global: "13.0.0"}
-  - {name: "tilt", versions: ["0.24.1"], global: "0.24.1"}
-  - {name: "zoxide", versions: ["0.8.0"], global: "0.8.0"}
   - {name: "golang", versions: ["1.17.3"], global: "1.17.3", url: "https://github.com/kennyp/asdf-golang.git"}
   - {name: "kustomize", versions: ["4.4.1"], global: "4.4.1", url: "https://github.com/Banno/asdf-kustomize.git"}
   - {name: "yarn", versions: ["1.22.17"], global: "1.22.17", url: "https://github.com/twuni/asdf-yarn.git"}
@@ -82,14 +65,9 @@ blindspot_packages:
   - imsnif/bandwhich
   - xermicus/blindspot
   - ClementTsang/bottom
-  - dawidm/cryptonose2
   - SirWindfield/git-cm
   - orhun/gpg-tui
-  - pemistahl/grex
-  - taiki-e/parse-changelog
   - chmln/sd
-  - dbrgn/tealdeer
-  - XAMPPRocky/tokei
 
 browser_packages:
   - google-chrome-stable
@@ -99,8 +77,6 @@ deb_packages:
   - package: "http://ppa.launchpad.net/atareao/atareao/ubuntu/pool/main/c/cpu-g/cpu-g_0.16.3-1ubuntu0_all.deb"
   - package: "http://packages.linuxmint.com/pool/main/l/linuxmint-keyring/linuxmint-keyring_2016.05.26_all.deb"
     check_gpg: false
-  - package: "http://packages.linuxmint.com/pool/main/w/webapp-manager/webapp-manager_1.1.9_all.deb"
-    check_gpg: true
   - package: "https://zoom.us/client/latest/zoom_amd64.deb"
     check_gpg: true
   - package: "{{ user_dir }}/{{ relative_dir }}/files/deb/SafenetAuthenticationClient-9.0.43-0_amd64.deb"
@@ -113,22 +89,15 @@ deb_packages:
     check_gpg: true
   - package: "http://archive.ubuntu.com/ubuntu/pool/main/f/fonts-android/fonts-droid_4.3-3ubuntu1.2_all.deb"
     check_gpg: true
-  - package: "https://github.com/rvpanoz/luna/releases/download/v.3.4.6/luna_3.4.6_amd64.deb"
-    check_gpg: true
-    # Luna - npm packages analyzer and updater
-  - package: "https://github.com/th-ch/youtube-music/releases/download/v1.12.2/youtube-music_1.12.2_amd64.deb"
-    check_gpg: true
-  - package: "https://github.com/ImaginarySense/Imaginary-Teleprompter-Electron/releases/download/2.4/imaginary-teleprompter_2.4.0_amd64.deb"
-    check_gpg: true
+  # - package: "https://github.com/rvpanoz/luna/releases/download/v.3.4.6/luna_3.4.6_amd64.deb"
+  #   check_gpg: true
+  #   # Luna - npm packages analyzer and updater
   - package: "https://github.com/MitMaro/git-interactive-rebase-tool/releases/download/2.1.0/git-interactive-rebase-tool-2.1.0-ubuntu-20.10_amd64.deb"
     check_gpg: true
   - package: "https://github.com/bvaisvil/zenith/releases/download/0.12.0/zenith_0.12.0-1_amd64.deb"
     check_gpg: true
   - package: "https://updates.safing.io/latest/linux_amd64/packages/portmaster-installer.deb"
     check_gpg: false
-
-deep_learning_packages:
-  - tensorman
 
 default_apps:
   - application: editor
@@ -156,7 +125,6 @@ desktop_packages_1:
   - gstreamer1.0-plugins-ugly
   - gtk2-engines-murrine
   - gtk2-engines-pixbuf
-  - hexchat
   - insync
   - libavcodec-extra
   - libreoffice-style-sifr
@@ -173,8 +141,6 @@ destop_packages_2:
   - qbittorrent
   - qt5-style-kvantum
   - qt5-style-kvantum-themes
-  - quickemu
-  - quickgui
   - regolith-desktop-standard
   - telegram-cli
   - telegram-desktop
@@ -274,10 +240,8 @@ elixir_dependencies:
   - xsltproc
 
 flatpak_packages:
-  - com.github.horaciodrs.tradesim
   - com.github.inercia.k3x
   - io.dbeaver.DBeaverCommunity
-  - io.github.mmstick.FontFinder
   - org.gtk.Gtk3theme.Material-light
   - org.gtk.Gtk3theme.Material-dark
   - org.gtk.Gtk3theme.Material-compact
@@ -319,7 +283,7 @@ gnome_settings:
   - [org.gnome.desktop.interface, font-name, "'Fira Sans Semi-Light 11'"]
   - [org.gnome.desktop.interface, monospace-font-name, "'Fira Mono 12'"]
   - [org.gnome.desktop.notifications, application-children,
-     "['io-elementary-appcenter', 'gnome-network-panel', 'firefox', 'steam', 'ca-desrt-dconf-editor', \
+     "['io-elementary-appcenter', 'gnome-network-panel', 'firefox', 'ca-desrt-dconf-editor', \
      'org-gnome-nautilus', 'com-alacritty-alacritty', 'telegramdesktop', 'org-pop-os-transition', \
      'org-remmina-remmina', 'org-gnome-shell-extensions-gsconnect', \
      'org-qbittorrent-qbittorrent', 'calibre-gui', 'com-github-donadigo-eddy', \
@@ -383,10 +347,6 @@ gnome_settings:
      name, "'Calibre'"]
   - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/",
      binding, "'<Primary><Super>b'"]
-  # Sleep and lid on laptops
-  - [org.gnome.settings-daemon.plugins.power, lid-close-ac-action, "'suspend'"]
-  - [org.gnome.settings-daemon.plugins.power, lid-close-battery-action, "'suspend'"]
-  - [org.gnome.settings-daemon.plugins.power, sleep-inactive-battery-type, "'nothing'"]
   # Extensions
   - [org.gnome.shell, disabled-extensions,
      "['auto-move-windows@gnome-shell-extensions.gcampax.github.com', \
@@ -434,7 +394,6 @@ gnome_shell_extensions:
   - {name: "lwsm@johannes.super-productivity.com", status: "disable"}
   - {name: "multi-monitors-add-on@spin83", status: "enable"}
   - {name: "netspeed@hedayaty.gmail.com", status: "enable"}
-  - {name: "NordVPN_Connect@poilrouge.fr", status: "enable"}
   - {name: "refresh-wifi@kgshank.net", status: "enable"}
   - {name: "status-area-horizontal-spacing@mathematical.coffee.gmail.com", status: "enable"}
   - {name: "tweaks-system-menu@extensions.gnome-shell.fifi.org", status: "enable"}
@@ -461,46 +420,15 @@ local_bin_packages:
   - tiv
   - touchpad-config
 
-macos_dependencies:
-  - wget
-  - coreutils
-  - dmg2img
-  - xxd
-  - bash-completion
-  - gzip
-  - unzip
-
 node_dependencies:
   - inotify-tools
   - nodejs
   - npm
 
-notebook_packages:
-  - tlp
-  - tlp-rdw
-  - powertop
-
 npm_packages:
   - {name: "bash-language-server", production: "yes"}
   - {name: "linux-window-session-manager", production: "yes"}
   - {name: "alacritty-themes", production: "yes"}
-
-nvidia_packages:
-  - freeglut3
-  - freeglut3-dev
-  - libxi-dev
-  - libxmu-dev
-
-personal_packages:
-  - gamemode
-  - gnome-shell-extension-gamemode
-  - libgamemode0
-  - libgamemodeauto0
-  - libvulkan1:i386
-  - steam-installer
-  - subdownloader
-  - youtube-downloader
-  - youtube-to-mp3
 
 postgresql_packages:
   - postgresql-13
@@ -529,40 +457,20 @@ pre_config_packages:
   - preload
 
 pypi_packages:
-  # - a2x
-  # - ansible-lint
-  # - ansible-playbook-grapher
   - ansicolors
-  # - ara
   - bpytop
-  # - cairocffi
-  # - flake8
   - gdrive-tools
   - git+https://github.com/essembeh/gnome-extensions-cli
   - google-api-python-client
-  # - gTTS
-  # - hatch
-  # - iwlib
-  # - matplotlib
   - mypy
   - oauth2client
   - pep8
   - ps_mem
   - psutil
   - PyGithub
-  #- pylint
   - python-magic
-  # - python-mpd2
   - pyudev
-  # - pyyaml
   - requests
-  # - rope
-  # - semver
-  # - spleeter
-  # - visidata
-  # - xcffib
-  # - yapf
-  # - yq
 
 python_dependencies:
   - exuberant-ctags
@@ -666,7 +574,6 @@ vscode_extensions:
   - benvp.vscode-hex-pm-intellisense
   - bradlc.vscode-tailwindcss
   - bungcip.better-toml
-  # - chiro2001.digital-ocean-manager
   - codezombiech.gitignore
   - DavidAnson.vscode-markdownlint
   - dbaeumer.vscode-eslint
