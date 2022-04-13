@@ -19,7 +19,7 @@
 # [ <-- needed because of Argbash
 
 ARGBASH_VERSION=2.10.0
-PROJECT="after-pop-os-install"
+PROJECT="ansible-after-pop-os-install"
 BRANCH=master
 playbook='workstation-pop-os.yml'
 # shellcheck disable=SC2154
