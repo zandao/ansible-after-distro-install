@@ -61,7 +61,6 @@ put it on .zshrc
   - https://github.com/pndurette/gTTS
   - https://github.com/deezer/spleeter
   - https://starship.rs/guide/#%F0%9F%9A%80-installation
-  - https://github.com/BurntSushi/ripgrep
 
 ## Pentaho TRT3 installation
 
@@ -80,18 +79,17 @@ The disk write actions of Google Chrome can be limited as follows: in Developer 
 
 Already done if restoring firefox .mozilla configuration.
 
-1. You can limit the disk write actions of Firefox, by putting the Firefox network cache into the RAM and by disabling sessionstore. Like this:
+You can limit the disk write actions of Firefox, by putting the Firefox network cache into the RAM and by disabling sessionstore. Like this:
 
-  1. By moving the Firefox network cache from your hard disk to the RAM, you diminish the amount of disk writes. 
-     1. Type in the URL bar of Firefox: about:config
-     2. Search bar: browser.cache.disk.enable
-        Toggle its value to false by double-clicking it: this will disable "cache to disk" entirely.
-     3. Check if "cache to RAM" is enabled. Search bar: browser.cache.memory.enable
-     5. Check how much memory can be used as RAM cache. Search bar: browser.cache.memory.capacity
-        - Enter the integer value in KB; I advise 204800 (which equals 200 MB).
-     6. Close Firefox and launch it again. You're done! Check it like this: about:cache
-
-  2. Firefox has a session restore feature. Disable it like this:
-    1. Type in the URL bar of Firefox: about:config
-    2. Type in the filter bar: browser.sessionstore.interval
-    3. The default interval is 15000, which means 15 seconds. Change it to 120000 (2 min.)
+   1. By moving the Firefox network cache from your hard disk to the RAM, you diminish the amount of disk writes. 
+      1. Type in the URL bar of Firefox: about:config
+      2. Search bar: browser.cache.disk.enable
+         Toggle its value to false by double-clicking it: this will disable "cache to disk" entirely.
+      3. Check if "cache to RAM" is enabled. Search bar: browser.cache.memory.enable
+      4. Check how much memory can be used as RAM cache. Search bar: browser.cache.memory.capacity
+         - Enter the integer value in KB; I advise 204800 (which equals 200 MB).
+      5. Close Firefox and launch it again. You're done! Check it like this: about:cache
+   2. Firefox has a session restore feature. Disable it like this:
+      1. Type in the URL bar of Firefox: about:config
+      2. Type in the filter bar: browser.sessionstore.interval
+      3. The default interval is 15000, which means 15 seconds. Change it to 120000 (2 min.)
