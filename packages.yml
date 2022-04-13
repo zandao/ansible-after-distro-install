@@ -273,10 +273,8 @@ elixir_dependencies:
   - xsltproc
 
 flatpak_packages:
-  - com.github.horaciodrs.tradesim
   - com.github.inercia.k3x
   - io.dbeaver.DBeaverCommunity
-  - io.github.mmstick.FontFinder
   - org.gtk.Gtk3theme.Material-light
   - org.gtk.Gtk3theme.Material-dark
   - org.gtk.Gtk3theme.Material-compact

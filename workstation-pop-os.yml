@@ -811,20 +811,6 @@
       loop: "{{ gnome_settings }}"
       tags: local_configuration
 
-    # Configures VSCode
-
-    - name: ensures config directory exists
-      file:
-        path: "{{ user_dir }}/.config/Code/User"
-        state: directory
-        recurse: true
-      tags: local_configuration
-
-    - name: ensures vscode extensions are installed
-      command: code --install-extension "{{ item }}"
-      with_items: "{{ vscode_extensions }}"
-      tags: user_package_installation
-
     # Flatpaks
 
     - name: ensures flatpak packages are present
@@ -862,3 +848,19 @@
       args:
         executable: /bin/bash
       tags: local_configuration
+
+    # Configures VSCode
+
+    - name: ensures config directory exists
+      file:
+        path: "{{ user_dir }}/.config/Code/User"
+        state: directory
+        recurse: true
+      tags: local_configuration
+
+    - name: ensures vscode extensions are installed
+      command: code --install-extension "{{ item }}"
+      with_items: "{{ vscode_extensions }}"
+      tags: user_package_installation
+
+
