@@ -96,7 +96,6 @@ browser_packages:
   - chrome-gnome-shell
 
 deb_packages:
-  - package: "http://ppa.launchpad.net/atareao/atareao/ubuntu/pool/main/c/cpu-g/cpu-g_0.16.3-1ubuntu0_all.deb"
   - package: "http://packages.linuxmint.com/pool/main/l/linuxmint-keyring/linuxmint-keyring_2016.05.26_all.deb"
     check_gpg: false
   - package: "http://packages.linuxmint.com/pool/main/w/webapp-manager/webapp-manager_1.1.9_all.deb"
@@ -161,7 +160,7 @@ desktop_packages_1:
   - libavcodec-extra
   - libreoffice-style-sifr
 
-destop_packages_2:
+desktop_packages_2:
   - i3xrocks-bluetooth
   - i3xrocks-disk-capacity
   - i3xrocks-focused-window-name
@@ -383,10 +382,6 @@ gnome_settings:
      name, "'Calibre'"]
   - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/",
      binding, "'<Primary><Super>b'"]
-  # Sleep and lid on laptops
-  - [org.gnome.settings-daemon.plugins.power, lid-close-ac-action, "'suspend'"]
-  - [org.gnome.settings-daemon.plugins.power, lid-close-battery-action, "'suspend'"]
-  - [org.gnome.settings-daemon.plugins.power, sleep-inactive-battery-type, "'nothing'"]
   # Extensions
   - [org.gnome.shell, disabled-extensions,
      "['auto-move-windows@gnome-shell-extensions.gcampax.github.com', \
@@ -395,14 +390,14 @@ gnome_settings:
      "['multi-monitors-add-on@spin83', 'gnome-shell-screenshot@ttll.de', \
      'status-area-horizontal-spacing@mathematical.coffee.gmail.com', 'timepp@zagortenay333', \
      'extensions@abteil.org', 'pop-shop-details@system76.com', \
-     'ubuntu-appindicators@ubuntu.com', 'batteryiconfix@kylecorry31.github.io', 'system76-power@system76.com', \
+     'ubuntu-appindicators@ubuntu.com', 'system76-power@system76.com', \
      'tweaks-system-menu@extensions.gnome-shell.fifi.org', \
      'caffeine@patapon.info', 'drive-menu@gnome-shell-extensions.gcampax.github.com', \
      'netspeed@hedayaty.gmail.com', 'pop-shell@system76.com', 'always-show-workspaces@system76.com', \
      'appindicatorsupport@rgcjonas.gmail.com', 'gsconnect@andyholmes.github.io', \
      'clipboard-indicator@tudmotu.com', 'refresh-wifi@kgshank.net', \
-     'NordVPN_Connect@poilrouge.fr', 'touchpad-indicator@orangeshirt', \
-     'bluetooth-battery@michalw.github.com', 'audio-switcher@albertomosconi']"]
+     'touchpad-indicator@orangeshirt', 'bluetooth-battery@michalw.github.com', \
+     'audio-switcher@albertomosconi']"]
   - [org.gnome.shell, had-bluetooth-devices-setup, 'true']
   - [org.gnome.shell.extensions.dash-to-dock, dash-max-icon-size, '32']
   - [org.gnome.shell.extensions.ding, show-network-volumes, 'false']
@@ -434,7 +429,6 @@ gnome_shell_extensions:
   - {name: "lwsm@johannes.super-productivity.com", status: "disable"}
   - {name: "multi-monitors-add-on@spin83", status: "enable"}
   - {name: "netspeed@hedayaty.gmail.com", status: "enable"}
-  - {name: "NordVPN_Connect@poilrouge.fr", status: "enable"}
   - {name: "refresh-wifi@kgshank.net", status: "enable"}
   - {name: "status-area-horizontal-spacing@mathematical.coffee.gmail.com", status: "enable"}
   - {name: "tweaks-system-menu@extensions.gnome-shell.fifi.org", status: "enable"}
@@ -484,12 +478,6 @@ npm_packages:
   - {name: "bash-language-server", production: "yes"}
   - {name: "linux-window-session-manager", production: "yes"}
   - {name: "alacritty-themes", production: "yes"}
-
-nvidia_packages:
-  - freeglut3
-  - freeglut3-dev
-  - libxi-dev
-  - libxmu-dev
 
 personal_packages:
   - gamemode
@@ -592,7 +580,6 @@ system_tools_packages_1:
   - bleachbit
   - chkservice
   - cmake
-  - cpu-g
   - dkms
   - et
   - fzf

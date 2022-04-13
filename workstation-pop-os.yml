@@ -189,40 +189,6 @@
         name: "{{ postgresql_packages }}"
       tags: package_installation
 
-    - name: verifies if this computer has a battery
-      shell: >
-        set -o pipefail &&
-        upower -i `upower -e | grep 'BAT'`
-      args:
-        executable: /bin/bash
-      register: battery
-      changed_when: false
-      tags: package_installation
-
-    - name: ensures notebook packages are installed
-      apt:
-        name: "{{ item }}"
-      loop: "{{ notebook_packages }}"
-      when: '"BAT" in battery.stdout'
-      tags: package_installation
-
-    - name: gets GPU id
-      shell: >
-        set -o pipefail &&
-        sudo lshw -C display | sed -n -e 's/^.*product: //p'
-      args:
-        executable: /bin/bash
-      register: get_gpu
-      changed_when: false
-      tags: package_installation
-
-    - name: ensures nvidia packages are installed
-      apt:
-        name: "{{ item }}"
-      loop: "{{ nvidia_packages }}"
-      when: '"NVidia" in get_gpu.stdout'
-      tags: package_installation
-
     - name: ensures virtualization packages are installed [long task]
       apt:
         name: "{{ virtualization_packages }}"
@@ -418,13 +384,6 @@
       changed_when: false
       tags: bin_installation
 
-    - name: finds Checkpoint VPN client installer
-      get_url:
-        url: 'https://dl3.checkpoint.com/paid/72/72c2c91791690927da0586ec873430cf/snx_install_linux30.sh?HashKey=1629471075_0b3dec05655e6a6ebc4462add62b1e54&xtn=.sh'
-        dest: "{{ src_dir }}/files/local/bin/snx_install_linux30.sh"
-      when: not snx.stat.exists
-      tags: bin_installation
-
     - name: ensures snx_install_linux30.sh is executable
       file:
         dest: "{{ src_dir }}/files/local/bin/snx_install_linux30.sh"
@@ -563,7 +522,7 @@
       lineinfile:
         path: /usr/bin/init-zram-swapping
         insertbefore: '^  echo $mem > /sys/block/zram${DEVNUMBER}/disksize'
-        line: ' echo $mem > /sys/block/zram${DEVNUMBER}/disksize'
+        line: '  echo lz4 > /sys/block/zram${DEVNUMBER}/comp_algorithm'
       tags: configuration
 
     # update-alternatives
