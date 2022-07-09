@@ -3,8 +3,6 @@
 #
 # ARG_OPTIONAL_BOOLEAN([transparent-proxy],[t],[configures MITM certificate and all])
 # ARG_OPTIONAL_BOOLEAN([add-to-known-hosts],[a],[adds localhost to ssh known_hosts])
-# ARG_OPTIONAL_SINGLE([github-user],[],[github user for user/password authentication ])
-# ARG_OPTIONAL_SINGLE([github-token],[],[github OAuth2 token for project download],[])
 # ARG_OPTIONAL_SINGLE([git-user-email],[],[git config user.email ])
 # ARG_OPTIONAL_SINGLE([git-user-name],[],[git config user.name ])
 # ARG_OPTIONAL_BOOLEAN([restore-config],[r],[restores configuration from Google Drive])
@@ -40,8 +38,6 @@ begins_with_short_option()
 # THE DEFAULTS INITIALIZATION - OPTIONALS
 _arg_transparent_proxy="off"
 _arg_add_to_known_hosts="off"
-_arg_github_user=
-_arg_github_token=
 _arg_git_user_email=
 _arg_git_user_name=
 _arg_restore_config="off"
@@ -53,11 +49,9 @@ _arg_extra_args=
 print_help()
 {
     printf '%s\n' "Configure Pop!_OS workstation"
-    printf 'Usage: %s [-t|--(no-)transparent-proxy] [-a|--(no-)add-to-known-hosts] [--github-user <arg>] [--github-token <arg>] [--git-user-email <arg>] [--git-user-name <arg>] [-r|--(no-)restore-config] [-u|--(no-)upgrade] [--(no-)debug] [--extra-args <arg>] [-h|--help] [-v|--version]\n' "$0"
+    printf 'Usage: %s [-t|--(no-)transparent-proxy] [-a|--(no-)add-to-known-hosts] [--git-user-email <arg>] [--git-user-name <arg>] [-r|--(no-)restore-config] [-u|--(no-)upgrade] [--(no-)debug] [--extra-args <arg>] [-h|--help] [-v|--version]\n' "$0"
     printf '\t%s\n' "-t, --transparent-proxy, --no-transparent-proxy: configures MITM certificate and all (off by default)"
     printf '\t%s\n' "-a, --add-to-known-hosts, --no-add-to-known-hosts: adds localhost to ssh known_hosts (off by default)"
-    printf '\t%s\n' "--github-user: github user for user/password authentication  (no default)"
-    printf '\t%s\n' "--github-token: github OAuth2 token for project download (no default)"
     printf '\t%s\n' "--git-user-email: git config user.email  (no default)"
     printf '\t%s\n' "--git-user-name: git config user.name  (no default)"
     printf '\t%s\n' "-r, --restore-config, --no-restore-config: restores configuration from Google Drive (off by default)"
@@ -98,22 +92,6 @@ parse_commandline()
                 then
                     { begins_with_short_option "$_next" && shift && set -- "-a" "-${_next}" "$@"; } || die "The short option '$_key' can't be decomposed to ${_key:0:2} and -${_key:2}, because ${_key:0:2} doesn't accept value and '-${_key:2:1}' doesn't correspond to a short option."
                 fi
-                ;;
-            --github-user)
-                test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
-                _arg_github_user="$2"
-                shift
-                ;;
-            --github-user=*)
-                _arg_github_user="${_key##--github-user=}"
-                ;;
-            --github-token)
-                test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
-                _arg_github_token="$2"
-                shift
-                ;;
-            --github-token=*)
-                _arg_github_token="${_key##--github-token=}"
                 ;;
             --git-user-email)
                 test $# -lt 2 && die "Missing value for the optional argument '$_key'." 1
@@ -204,11 +182,6 @@ PROJECT="ansible-after-pop-os-install"
 BRANCH=master
 playbook='workstation-pop-os.yml'
 # shellcheck disable=SC2154
-GITHUB_USER=${_arg_github_user}
-if [ "$GITHUB_USER" != "" ]; then
-    GITHUB_USER_AT="${GITHUB_USER}@"
-fi
-GITHUB_URL="https://${GITHUB_USER_AT}github.com/$GIT_HUB_USER/$PROJECT.git"
 ASCIIART_HEIGHT=26
 
 PROJECT_DIR="$HOME/$PROJECT"
@@ -377,16 +350,6 @@ function install_argbash {
     fi
 }
 
-# GIT
-#####
-function install_git {
-    if ! type -P git ; then
-        sudo apt -y -q install git
-    else
-        msg "Vim already installed"
-    fi
-}
-
 # known_hosts
 #############
 function add_to_known_hosts {
@@ -414,51 +377,15 @@ function configure_proxy {
           sudo openssl x509 -inform der -in $f -out /usr/local/share/ca-certificates/$(basename $f .cer).crt
         done
         sudo cp $PROJECT_DIR/files/x509/*.crt /usr/local/share/ca-certificates
-        sudo update-ca-certificates && sudo systemctl daemon-reload
+        sudo update-ca-certificates
     else
         msg "man-in-the-middle already enabled"
     fi
 }
 
-# VIM
-#####
-function install_vim {
-    if ! type -P vim ; then
-        sudo apt -y -q install vim
-    else
-        msg "Vim already installed"
-    fi
-}
-
-# Check if project is downloaded and downloads it
-#################################################
-
-function clone_project_if_needed {
-    if [ "$RELATIVE_DIR" != "$PROJECT" ] ; then
-        if [ ! -d "$PROJECT_DIR" ]; then
-            # shellcheck disable=SC2154
-            if [ "$_arg_github_token" != "" ] ; then
-                GITHUB_TOKEN="$_arg_github_token"
-            fi
-            msg "Starting download"
-	    git clone -b $BRANCH --single-branch "$GITHUB_URL"
-            error=$?
-            if (( $error != 0 )) ; then
-                msgerror "Error $error during project download"
-                exit $error
-            fi
-            mv "$HOME/$SCRIPT_NAME" "$PROJECT_DIR/$SCRIPT_NAME"
-        fi
-        cd "$PROJECT_DIR" || echo "$PROJECT_DIR doesn't exist"
-        "$PROJECT_DIR/$SCRIPT_NAME" "$@"
-        exit $?
-    fi
-}
 
 # Beggining the way
 ###############################################################################
-
-clone_project_if_needed
 
 sudo apt install imagemagick
 
@@ -551,109 +478,12 @@ echo '                                           ##                 ##'
 echo '                                         ###                ###'
 install_argbash
 
-echo
-echo
-echo
-echo '               ##       ## ##  ##                     ##'
-echo '##             ##       ## ##  ##                     ##'
-echo '##             ##       ## ##'
-echo '## # ##   ### #### #### ## ##  ## # ##   ####   ## ## ## ## #'
-echo '## ## ## ##    ## ## ## ## ##  ## ## ## ## ##   ## ## ## #####'
-echo '## ## ##  ###  ## ## ## ## ##  ## ## ## ## ##   ## ## ## #####'
-echo '## ## ##    ## ## ## ## ## ##  ## ## ## ## ##    ###  ## #####'
-echo '## ## ## ####   ## ## #  ## ## ## ## ##  ####     #   ## ## ##'
-echo '                                           ##'
-echo '                                         ###'
-install_vim
-
-echo
-echo
-echo
-echo '               ##       ## ##  ##                     ##  ##'
-echo '##             ##       ## ##  ##                     ##  ##'
-echo '##             ##       ## ##                             ##'
-echo '## # ##   ### #### #### ## ##  ## # ##   ####    #### ## ####'
-echo '## ## ## ##    ## ## ## ## ##  ## ## ## ## ##   ## ## ##  ##'
-echo '## ## ##  ###  ## ## ## ## ##  ## ## ## ## ##   ## ## ##  ##'
-echo '## ## ##    ## ## ## ## ## ##  ## ## ## ## ##   ## ## ##  ##'
-echo '## ## ## ####   ## ## #  ## ## ## ## ##  ####    #### ##   ##'
-echo '                                           ##      ##'
-echo '                                         ###     ###'
-install_git
-
 # Installation of Google Drive packages
 ###############################################################################
 
 # shellcheck disable=SC2154
 if [ "$_arg_restore_config" = "on" ] ; then
-    echo
-    echo
-    echo
-    echo '               ##       ## ##  ##                                       ##'
-    echo '##             ##       ## ##  ##                ###                    ##'
-    echo '##             ##       ## ##                   ## ##                   ##'
-    echo '## # ##   ### #### #### ## ##  ## # ##   ####   ##     ###   ###   #### ##  ###'
-    echo '## ## ## ##    ## ## ## ## ##  ## ## ## ## ##   ##### ## ## ## ## ## ## ## ## ##'
-    echo '## ## ##  ###  ## ## ## ## ##  ## ## ## ## ##   ## ## ## ## ## ## ## ## ## #####'
-    echo '## ## ##    ## ## ## ## ## ##  ## ## ## ## ##   ## ## ## ## ## ## ## ## ## ##'
-    echo '## ## ## ####   ## ## #  ## ## ## ## ##  ####    ####  ###   ###   ####  ## ###'
-    echo '                                           ##                        ##'
-    echo '            ##                           ###   ##                  ###'
-    echo '####        ##                                 ##'
-    echo '## ##                                          ##'
-    echo '## ## # ### ## ## ##  ###    ####   ####  #### ## ## ####  ####  ###   ###'
-    echo '## ## ###   ## ## ## ## ##   ## ## ## ## ##    #### ## ## ## ## ## ## ##'
-    echo '## ## ##    ## ## ## #####   ## ## ## ## ##    ###  ## ## ## ## #####  ###'
-    echo '## ## ##    ##  ###  ##      ## ## ## ## ##    #### ## ## ## ## ##       ##'
-    echo '####  ##    ##   #    ###    ####   ## #  #### ## ## ## #  ####  ###  ####'
-    echo '                             ##                              ##'
-    echo '                             ##                            ###'
-
-    [[ ! -d ~/.config/gdrive-package ]] && mkdir ~/.config/gdrive-package
-    if [ -f ~/Download/*-credentials.json ] || [ -f ~/Downloads/*-token.pickle ] ; then
-      cp ~/Downloads/*-credentials.json ~/.config/gdrive-package
-      mv ~/Downloads/*-credentials.json ~/.config/gdrive-package/${USER}-credentials.json
-      cp ~/Downloads/*-token.pickle ~/.config/gdrive-package
-      mv ~/Downloads/*-token.pickle ~/.config/gdrive-package/${USER}-token.pickle
-    fi
-
-    sudo apt install -y python3-pip
-    sudo pip3 install gdrive-tools
-
-    echo
-    bold
-    green
-    read -p "Enter password to install encrypted packages: " -r -s restore_config_key
-    echo
-    reset_all
-
-    pushd "$PROJECT_DIR/files" > /dev/null || echo "Directory $PROJECT_DIR/files doesn't exist"
-    msg "Installing fonts Google Drive package"
-    "$PROJECT_DIR/gdrive-package.py" install fonts
-    msg "Installing deb Google Drive package"
-    "$PROJECT_DIR/gdrive-package.py" install deb
-    msg "Installing home-config Google Drive package"
-    "$PROJECT_DIR/gdrive-package.py" install home-config
-    msg "Installing vscode Google Drive package"
-    "$PROJECT_DIR/gdrive-package.py" install vscode
-    msg "Installing documents Google Drive package"
-    "$PROJECT_DIR/gdrive-package.py" install documents
-    msg "Installing shell Google Drive package"
-    "$PROJECT_DIR/gdrive-package.py" install shell
-
-    if [ "$restore_config_key" != "" ] ; then
-        msg "Installing shell-encoded Google Drive package"
-        "$PROJECT_DIR/gdrive-package.py" --encryption-key "$restore_config_key" install shell-encoded
-        msg "Installing Telegram Desktop Google Drive package"
-        "$PROJECT_DIR/gdrive-package.py" --encryption-key "$restore_config_key" install telegram-encoded
-        msg "Installing home-encrypted Google Drive package"
-        "$PROJECT_DIR/gdrive-package.py" --encryption-key "$restore_config_key" install home-encoded
-        msg "Installing IRPF Google Drive package"
-        "$PROJECT_DIR/gdrive-package.py" --encryption-key "$restore_config_key" install IRPF
-        msg "Installing files/security Google Drive package"
-        "$PROJECT_DIR/gdrive-package.py" --encryption-key "$restore_config_key" install security
-    fi
-    popd || echo "I'll be back"
+    echo Not implemented
 fi
 
 echo
@@ -675,7 +505,7 @@ if [ "$_arg_add_to_known_hosts" = "on" ] ; then
     add_to_known_hosts
 fi
 msg "Starting sshd server"
-sudo systemctl start sshd
+sudo service ssh start
 
 # shellcheck disable=SC2154
 if [ "$_arg_debug" = "on" ] ; then
@@ -687,13 +517,13 @@ fi
 sleep 1
 
 yoffset=$(lineoffset $ASCIIART_HEIGHT)
-./files/local/bin/tiv -h $ASCIIART_HEIGHT files/images/feeling_lucky.jpg
+./files/local/bin/tiv -0 -h $ASCIIART_HEIGHT files/images/feeling_lucky.jpg
 save_cursor_position
 reverse_color
-writexy 38 $((yoffset + 1)) "😃 I'm feeling"
+writexy 38 $((yoffset + 1)) ":) I'm feeling"
 writexy 38 $((yoffset + 2)) "lucky today..."
 writexy 16 $((yoffset + 4)) "YEAH! GO FOR IT, FRY!"
-writexy 18 $((yoffset + 5)) "hehehe 😈"
+writexy 18 $((yoffset + 5)) "hehehe }:)"
 bold
 writexy 69 $((yoffset + 5)) "BENDER, YOU"
 writexy 70 $((yoffset + 6)) "ARE RIGHT!"
@@ -705,7 +535,7 @@ writexy 71 $((yoffset + 9)) "go wrong?"
 restore_cursor_position
 reverse_color
 red
-printf '         "𝘼𝙗𝙖𝙣𝙙𝙤𝙣 𝙖𝙡𝙡 𝙝𝙤𝙥𝙚, 𝙮𝙚 𝙬𝙝𝙤 𝙚𝙣𝙩𝙚𝙧 𝙝𝙚𝙧𝙚." Inferno (Dante)            '
+printf '         "Abandon all hope, ye who enter here." Inferno (Dante)            '
 echo
 reset_all
 pause " I mean, press any key to continue the ugly part of the installation..."
@@ -725,9 +555,8 @@ sleep 2
 TAGS=$(ansible-playbook $playbook --list-tags | awk -vFS='[' -vRS=']' '!visited[$2]++ {gsub(" ","", $0); gsub("always,", "", $0); if ($2 !~ /^$/) {print $2}}' | tr '\n' ',')${TAGS}
 
 # shellcheck disable=SC2086
-ansible-playbook $debug --ssh-extra-args='-o "PubkeyAuthentication=no" -o StrictHostKeyChecking=no' \
-  "$playbook" --user="$USER" --tags "$TAGS" $_arg_extra_args \
-  -e "relative_dir=$RELATIVE_DIR ansible_ssh_pass=\"$pw\" ansible_become_pass=\"$pw\" ansible_user=$USER ansible_become_method=sudo  git_user_email=\"${_arg_git_user_email:-unknown_user@unknown_domain}\" git_user_name=\"${_arg_git_user_name:-John Doe}\""
+ansible-playbook $debug "$playbook" --tags "$TAGS" $_arg_extra_args \
+  -e "relative_dir=$RELATIVE_DIR ansible_become_pass=\"$pw\" ansible_user=$USER ansible_become_method=sudo git_user_email=\"${_arg_git_user_email:-unknown_user@unknown_domain}\" git_user_name=\"${_arg_git_user_name:-John Doe}\""
 
 # shellcheck disable=SC2181
 if [ $? -gt 0 ] ; then

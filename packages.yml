@@ -6,31 +6,11 @@ appimage_packages:
   - https://github.com/qarmin/czkawka/releases/download/4.0.0/linux_czkawka_gui.AppImage
 
 apt_sources:
-  - filename: "gnome-gmail"
-    url: "https://davesteele.github.io/key-366150CE.pub.txt"
-    keyring: "/etc/apt/trusted.gpg.d/gnome-gmail.gpg"
-    validate_certs: "no"
-    repo: "deb http://davesteele.github.io/gnome-gmail/repo gnome-gmailppa main"
-  - filename: "assinador-serpro"
-    url: "https://assinadorserpro.estaleiro.serpro.gov.br/repository/AssinadorSERPROpublic.asc"
-    keyring: "/etc/apt/trusted.gpg.d/assinador-serpro.gpg"
-    validate_certs: "no"
-    repo: "deb https://www.assinadorserpro.estaleiro.serpro.gov.br/repository/ universal stable"
   - filename: "docker-ce"
     url: "https://download.docker.com/linux/ubuntu/gpg"
     keyring: "/etc/apt/trusted.gpg.d/docker-ce.gpg"
     validate_certs: "no"
     repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-  - filename: "insync"
-    keyserver: "keyserver.ubuntu.com"
-    id: "ACCAF35C"
-    validate_certs: "no"
-    repo: "deb http://apt.insync.io/ubuntu groovy non-free contrib"
-  - filename: "google-chrome"
-    url: "https://dl-ssl.google.com/linux/linux_signing_key.pub"
-    keyring: "/etc/apt/trusted.gpg.d/google.gpg"
-    validate_certs: "no"
-    repo: "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main"
   - filename: "vscode"
     url: "https://packages.microsoft.com/keys/microsoft.asc"
     keyring: "/etc/apt/trusted.gpg.d/packages.microsoft.gpg"
@@ -58,9 +38,6 @@ asdf_plugins:
   - {name: "kustomize", versions: ["4.4.1"], global: "4.4.1", url: "https://github.com/Banno/asdf-kustomize.git"}
   - {name: "yarn", versions: ["1.22.17"], global: "1.22.17", url: "https://github.com/twuni/asdf-yarn.git"}
 
-backup_packages:
-  - timeshift
-
 blindspot_packages:
   - imsnif/bandwhich
   - xermicus/blindspot
@@ -69,55 +46,22 @@ blindspot_packages:
   - orhun/gpg-tui
   - chmln/sd
 
-browser_packages:
-  - google-chrome-stable
-  - chrome-gnome-shell
-
 deb_packages:
-  - package: "http://ppa.launchpad.net/atareao/atareao/ubuntu/pool/main/c/cpu-g/cpu-g_0.16.3-1ubuntu0_all.deb"
   - package: "http://packages.linuxmint.com/pool/main/l/linuxmint-keyring/linuxmint-keyring_2016.05.26_all.deb"
     check_gpg: false
-  - package: "https://zoom.us/client/latest/zoom_amd64.deb"
-    check_gpg: true
-  - package: "{{ user_dir }}/{{ relative_dir }}/files/deb/SafenetAuthenticationClient-9.0.43-0_amd64.deb"
-    check_gpg: true
-    # Alternative:
-    # https://cdn.download.comodo.com/SAC/linux/deb/x64/SafenetAuthenticationClient-9.0.43-0_amd64.deb
-    # or https://www.ensured.com/files/SafenetAuthenticationClient-9.0.43-0_amd64.deb
-    # or https://download.qoppa.com/pdfstudio/safenet/linux/SafenetAuthenticationClient-9.0.43-0_amd64.deb
-  - package: "https://github.com/gohugoio/hugo/releases/download/v0.91.2/hugo_extended_0.91.2_Linux-64bit.deb"
+  - package: "https://github.com/gohugoio/hugo/releases/download/v0.101.0/hugo_extended_0.101.0_Linux-64bit.deb"
     check_gpg: true
   - package: "http://archive.ubuntu.com/ubuntu/pool/main/f/fonts-android/fonts-droid_4.3-3ubuntu1.2_all.deb"
     check_gpg: true
   # - package: "https://github.com/rvpanoz/luna/releases/download/v.3.4.6/luna_3.4.6_amd64.deb"
   #   check_gpg: true
   #   # Luna - npm packages analyzer and updater
-  - package: "https://github.com/MitMaro/git-interactive-rebase-tool/releases/download/2.1.0/git-interactive-rebase-tool-2.1.0-ubuntu-20.10_amd64.deb"
+  - package: "https://github.com/MitMaro/git-interactive-rebase-tool/releases/download/2.2.0/git-interactive-rebase-tool-2.2.0-ubuntu-20.10_amd64.deb"
     check_gpg: true
   - package: "https://github.com/bvaisvil/zenith/releases/download/0.12.0/zenith_0.12.0-1_amd64.deb"
     check_gpg: true
-  - package: "https://updates.safing.io/latest/linux_amd64/packages/portmaster-installer.deb"
-    check_gpg: false
-
-default_apps:
-  - application: editor
-    path: /usr/bin/vim.basic
-  - application: x-terminal-emulator
-    path: /usr/bin/alacritty
-  - application: gnome-www-browser
-    path: /usr/bin/firefox
-  - application: x-www-browser
-    path: /usr/bin/firefox
 
 desktop_packages_1:
-  - appimagelauncher
-  - appmenu-gtk3-module
-  - assinador-serpro
-  - brightnessctl
-  - caffeine
-  - calibre
-  - gnome-gmail
-  - gnome-shell-extension-appindicator
   - graphviz
   - gstreamer1.0-libav
   - gstreamer1.0-plugins-good
@@ -125,32 +69,17 @@ desktop_packages_1:
   - gstreamer1.0-plugins-ugly
   - gtk2-engines-murrine
   - gtk2-engines-pixbuf
-  - insync
   - libavcodec-extra
-  - libreoffice-style-sifr
 
 destop_packages_2:
-  - i3xrocks-bluetooth
-  - i3xrocks-disk-capacity
-  - i3xrocks-focused-window-name
-  - i3xrocks-memory
-  - i3xrocks-wifi
-  - light
-  - numlockx
   - pdfarranger
   - qbittorrent
   - qt5-style-kvantum
   - qt5-style-kvantum-themes
-  - regolith-desktop-standard
-  - telegram-cli
-  - telegram-desktop
   - xclip
   - xdo
-  - xserver-xorg-input-synaptics
 
 devel_libs_1:
-  - libasound2-dev
-  - libbluetooth-dev
   - libbz2-dev
   - libconfig-dev
   - libev4
@@ -194,20 +123,16 @@ devel_packages_1:
   - discord
   - dos2unix
   - expect
-  - gcc-8
-  - g++-8
+  - gcc
+  - g++
   - git
   - git-extras
   - gpick
 
 devel_packages_2:
-  - gcc-9
-  - g++-9
-  - luarocks
   - meld
   - meson
   - neofetch
-  - papirus-icon-theme
   - pkg-config
   - rustc
   - shellcheck
@@ -263,141 +188,6 @@ font_packages:
   - fonts-powerline
   - fonts-roboto
 
-gnome_settings:
-  - [org.gnome.desktop.background, show-desktop-icons, 'false']
-  - [org.gnome.desktop.background, color-shading-type, "'solid'"]
-  - [org.gnome.desktop.background, picture-opacity, 100]
-  - [org.gnome.desktop.background, picture-options, "'spanned'"]
-  - [org.gnome.desktop.background, picture-uri,
-     "'file://{{ user_dir }}/.local/share/backgrounds/forest3-dual.jpg'"]
-  - [org.gnome.desktop.background, primary-color, "'#000000000000'"]
-  - [org.gnome.desktop.background, secondary-color, "'#000000000000'"]
-  - [org.gnome.desktop.calendar, show-weekdate, 'false']
-  - [org.gnome.desktop.interface, clock-show-date, 'true']
-  - [org.gnome.desktop.interface, clock-show-seconds, 'false']
-  - [org.gnome.desktop.interface, clock-show-weekday, 'false']
-  - [org.gnome.desktop.interface, enable-animations, 'true']
-  - [org.gnome.desktop.interface, enable-hot-corners, 'false']
-  - [org.gnome.desktop.interface, clock-format, "'24h'"]
-  - [org.gnome.desktop.interface, document-font-name, "'Roboto Slab 12'"]
-  - [org.gnome.desktop.interface, font-name, "'Fira Sans Semi-Light 11'"]
-  - [org.gnome.desktop.interface, monospace-font-name, "'Fira Mono 12'"]
-  - [org.gnome.desktop.notifications, application-children,
-     "['io-elementary-appcenter', 'gnome-network-panel', 'firefox', 'ca-desrt-dconf-editor', \
-     'org-gnome-nautilus', 'com-alacritty-alacritty', 'telegramdesktop', 'org-pop-os-transition', \
-     'org-remmina-remmina', 'org-gnome-shell-extensions-gsconnect', \
-     'org-qbittorrent-qbittorrent', 'calibre-gui', 'com-github-donadigo-eddy', \
-     'org-gnome-extensions-desktop', 'org-gnome-chromegnomeshell', 'shift-application', 'google-chrome', \
-     'insync', 'org-gnome-shell-extensions', 'dbeaver', 'zoom', 'com-leinardi-gst', 'gnome-control-center']"]
-  - [org.gnome.desktop.notifications, show-in-lock-screen, 'false']
-  - [org.gnome.desktop.peripherals.touchpad, disable-while-typing, 'true']
-  - [org.gnome.desktop.peripherals.touchpad, two-finger-scrolling-enabled, 'true']
-  - [org.gnome.desktop.peripherals.touchpad, tap-to-click, 'true']
-  - [org.gnome.desktop.privacy, report-technical-problems, 'true']
-  - [org.gnome.desktop.screensaver, picture-options, "'spanned'"]
-  - [org.gnome.desktop.screensaver, picture-uri,
-     "'file://{{ user_dir }}/.local/share/backgrounds/ying-yang.jpg'"]
-  - [org.gnome.desktop.screensaver, primary-color, "'#000000000000'"]
-  - [org.gnome.desktop.screensaver, secondary-color, "'#000000000000'"]
-  - [org.gnome.desktop.sound, allow-volume-above-100-percent, 'true']
-  - [org.gnome.desktop.wm.keybindings, switch-applications, "['<Super>Tab']"]
-  - [org.gnome.desktop.wm.keybindings, switch-applications-backward, "['<Shift><Super>Tab']"]
-  - [org.gnome.desktop.wm.keybindings, switch-windows, "['<Alt>Tab']"]
-  - [org.gnome.desktop.wm.keybindings, switch-windows-backward, "['<Shift><Alt>Tab']"]
-  - [org.gnome.desktop.wm.preferences, titlebar-uses-system-font, 'false']
-  - [org.gnome.desktop.wm.preferences, button-layout, "'appmenu:minimize,maximize,close'"]
-  - [org.gnome.desktop.wm.preferences, num-workspaces, '5']
-  - [org.gnome.desktop.wm.preferences, titlebar-font, "'Fira Sans Semi-Bold 11'"]
-  - [org.gnome.evolution-data-server, migrated, 'true']
-  - [org.gnome.login-screen, disable-user-list, 'true']
-  - [org.gnome.mutter, dynamic-workspaces, 'false']
-  - [org.gnome.mutter, workspaces-only-on-primary, 'true']
-  - [org.gnome.seahorse.manager, item-filter, "'any'"]
-  - [org.gnome.seahorse.manager, keyrings-selected,
-     "['secret-service:///org/freedesktop/secrets/collection/login']"]
-  # gsettings reset-recursively  org.gnome.settings-daemon.plugins.media-keys
-  - [org.gnome.settings-daemon.plugins.media-keys, control-center, "['<Primary><Super>s']"]
-  #
-  - [org.gnome.settings-daemon.plugins.media-keys, custom-keybindings,
-     "['/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/',
-     '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/',
-     '/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/']"]
-  # gsettings list-recursively org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:
-  # /org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/
-  # to list second custom directory (key binding)
-  #
-  # Visual Source Code key binding
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/",
-     command, "'/usr/share/code/code'"]
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/",
-     name, "'Visual Source Code'"]
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/",
-     binding, "'<Primary><Super>c'"]
-  # Virtualbox key binding
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/",
-     command, "'/usr/bin/virtualbox'"]
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/",
-     name, "'Virtualbox'"]
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom1/",
-     binding, "'<Primary><Super>v'"]
-  # Calibre key binding
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/",
-     command, "'/usr/bin/calibre'"]
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/",
-     name, "'Calibre'"]
-  - ["org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom2/",
-     binding, "'<Primary><Super>b'"]
-  # Extensions
-  - [org.gnome.shell, disabled-extensions,
-     "['auto-move-windows@gnome-shell-extensions.gcampax.github.com', \
-       'alt-tab-raise-first-window@system76.com', 'ding@rastersoft.com']"]
-  - [org.gnome.shell, enabled-extensions,
-     "['multi-monitors-add-on@spin83', 'gnome-shell-screenshot@ttll.de', \
-     'status-area-horizontal-spacing@mathematical.coffee.gmail.com', 'timepp@zagortenay333', \
-     'extensions@abteil.org', 'pop-shop-details@system76.com', \
-     'ubuntu-appindicators@ubuntu.com', 'batteryiconfix@kylecorry31.github.io', 'system76-power@system76.com', \
-     'tweaks-system-menu@extensions.gnome-shell.fifi.org', \
-     'caffeine@patapon.info', 'drive-menu@gnome-shell-extensions.gcampax.github.com', \
-     'netspeed@hedayaty.gmail.com', 'pop-shell@system76.com', 'always-show-workspaces@system76.com', \
-     'appindicatorsupport@rgcjonas.gmail.com', 'gsconnect@andyholmes.github.io', \
-     'clipboard-indicator@tudmotu.com', 'refresh-wifi@kgshank.net', \
-     'NordVPN_Connect@poilrouge.fr', 'touchpad-indicator@orangeshirt', \
-     'bluetooth-battery@michalw.github.com', 'audio-switcher@albertomosconi']"]
-  - [org.gnome.shell, had-bluetooth-devices-setup, 'true']
-  - [org.gnome.shell.extensions.dash-to-dock, dash-max-icon-size, '32']
-  - [org.gnome.shell.extensions.ding, show-network-volumes, 'false']
-  - [org.gnome.shell.extensions.ding, show-drop-place, 'true']
-  - [org.gnome.shell.extensions.ding, icon-size, "'standard'"]
-  - [org.gnome.shell.extensions.ding, show-home, 'false']
-  - [org.gnome.shell.extensions.ding, start-corner, "'top-left'"]
-  - [org.gnome.shell.extensions.ding, add-volumes-opposite, 'true']
-  - [org.gnome.shell.extensions.ding, show-trash, 'false']
-  - [org.gnome.shell.extensions.ding, show-volumes, 'false']
-  - [org.gnome.shell.extensions.pop-shell, active-hint, 'true']
-  - [org.gnome.shell.extensions.pop-shell, tile-by-default, 'true']
-  - [org.gnome.shell.extensions.pop-shell, tile-by-default, 'true']
-  - [org.gnome.shell.extensions.pop-shell, active-hint, 'true']
-  - [org.gnome.shell.extensions.pop-shell, hint-color-rgba, "'rgba(251, 184, 108, 1)'"]
-  - [org.gnome.shell.window-switcher, current-workspace-only, 'false']
-  - [org.gnome.system.locale, region, "'pt_BR.UTF-8'"]
-  - [org.gtk.Settings.FileChooser, clock-format, "'24h'"]
-
-gnome_shell_extensions:
-  - {name: "audio-switcher@albertomosconi", status: "enable"}
-  - {name: "bluetooth-battery@michalw.github.com", status: "enable"}
-  - {name: "caffeine@patapon.info", status: "enable"}
-  - {name: "clipboard-indicator@tudmotu.com", status: "enable"}
-  - {name: "drive-menu@gnome-shell-extensions.gcampax.github.com", status: "enable"}
-  - {name: "extensions@abteil.org", status: "enable"}
-  - {name: "gnome-shell-screenshot@ttll.de", status: "enable"}
-  - {name: "gsconnect@andyholmes.github.io", status: "enable"}
-  - {name: "lwsm@johannes.super-productivity.com", status: "disable"}
-  - {name: "multi-monitors-add-on@spin83", status: "enable"}
-  - {name: "netspeed@hedayaty.gmail.com", status: "enable"}
-  - {name: "refresh-wifi@kgshank.net", status: "enable"}
-  - {name: "status-area-horizontal-spacing@mathematical.coffee.gmail.com", status: "enable"}
-  - {name: "tweaks-system-menu@extensions.gnome-shell.fifi.org", status: "enable"}
-
 image_packages:
   - ffmpeg
   - gimp
@@ -418,7 +208,6 @@ local_bin_packages:
   #- gitconfig
   #- shrinkpdf.sh
   - tiv
-  - touchpad-config
 
 node_dependencies:
   - inotify-tools
@@ -431,18 +220,15 @@ npm_packages:
   - {name: "alacritty-themes", production: "yes"}
 
 postgresql_packages:
-  - postgresql-13
+  - postgresql-14
   - postgresql-common
   - postgresql-contrib
-  - postgresql-client-13
+  - postgresql-client-14
 
 ppas:
   - ppa:git-core/ppa
   - ppa:appimagelauncher-team/stable
-  - ppa:regolith-linux/release
-  - ppa:jgmath2000/et
-  - ppa:flexiondotorg/quickemu
-  - ppa:yannick-mauray/quickgui
+  #- ppa:jgmath2000/et
 
 pre_config_packages:
   - lsb-base
@@ -459,8 +245,6 @@ pre_config_packages:
 pypi_packages:
   - ansicolors
   - bpytop
-  - gdrive-tools
-  - git+https://github.com/essembeh/gnome-extensions-cli
   - google-api-python-client
   - mypy
   - oauth2client
@@ -484,7 +268,6 @@ python_dependencies:
   - libmpd-dev
   - libpangocairo-1.0-0
   - libxcb-render0-dev
-  - python3-bluez
   - python3-cairocffi
   - python3-dbus
   - python-dbus-dev
@@ -500,19 +283,14 @@ system_tools_packages_1:
   - bleachbit
   - chkservice
   - cmake
-  - cpu-g
   - dkms
-  - et
   - fzf
   - gdebi
   - gnome-tweaks
   - gnupg-agent
   - gparted
   - gpg
-  - hardinfo
-  - hddtemp
   - htop
-  - hwinfo
   - libappimage0
   - libssh-4
   - libssh-dev
@@ -523,49 +301,24 @@ system_tools_packages_2:
   - psensor
   - qtbase5-dev
   - rar
-  - remmina
-  - samba-client
-  - smartmontools
   - snapd
   - stacer
   - synaptic
   - ubuntu-restricted-extras
   - unhide
   - unrar
-  - vim
   - xrdp
-  - zram-config
   - zsh
-
-uninstall_packages:
-  - apport
-  - apport-gtk
-  - apport-symptoms
-  - geary
-  - gnome-contacts
 
 video_packages:
   - fakeroot
   - libssl1.1
-  - obs-studio
   - ocl-icd-opencl-dev
   - xorriso
 
 virtualization_packages:
   - docker-ce
   - docker-ce-cli
-  - virtualbox
-  - virtualbox-guest-additions-iso
-  - virtualbox-guest-utils
-  - virtualbox-guest-x11
-
-vpn_dependencies:
-  - libnss3-tools
-  - libpam0g:i386
-  - libstdc++5:i386
-  - libstdc++6:i386
-  - libx11-6:i386
-  - nethogs
 
 vscode_extensions:
   - adpyke.codesnap
