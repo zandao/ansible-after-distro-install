@@ -27,46 +27,46 @@
 
     ### APT REPOS CONFIGURATION PHASE
 
-    - name: ensures ppas are present
-      apt_repository:
-        repo: "{{ item }}"
-        state: present
-        validate_certs: false
-      with_items: "{{ ppas }}"
-      tags: repository_configuration
+    #- name: ensures ppas are present
+    #  apt_repository:
+    #    repo: "{{ item }}"
+    #    state: present
+    #    validate_certs: false
+    #  with_items: "{{ ppas }}"
+    #  tags: repository_configuration
 
-    - name: ensures repositories gpg keys are present (using key file)
-      apt_key:
-        url: "{{ item.url }}"
-        keyring: "{{ item.keyring }}"
-        validate_certs: "{{ item.validate_certs }}"
-      loop: "{{ apt_sources|rejectattr('url', 'undefined')|list }}"
-      tags: repository_configuration
+    #- name: ensures repositories gpg keys are present (using key file)
+    #  apt_key:
+    #    url: "{{ item.url }}"
+    #    keyring: "{{ item.keyring }}"
+    #    validate_certs: "{{ item.validate_certs }}"
+    #  loop: "{{ apt_sources|rejectattr('url', 'undefined')|list }}"
+    #  tags: repository_configuration
 
-    - name: ensures repositories gpg keys are present (using key id)
-      apt_key:
-        id: "{{ item.id }}"
-        keyserver: "{{ item.keyserver }}"
-        validate_certs: "{{ item.validate_certs }}"
-      loop: "{{ apt_sources|rejectattr('id', 'undefined')|list }}"
-      tags: repository_configuration
+    # - name: ensures repositories gpg keys are present (using key id)
+    #  apt_key:
+    #    id: "{{ item.id }}"
+    #    keyserver: "{{ item.keyserver }}"
+    #    validate_certs: "{{ item.validate_certs }}"
+    #  loop: "{{ apt_sources|rejectattr('id', 'undefined')|list }}"
+    #  tags: repository_configuration
 
-    - name: ensures listed repositories are present
-      apt_repository:
-        repo: "{{ item.repo }}"
-        filename: "{{ item.filename }}"
-        update_cache: false
-      loop: "{{ apt_sources }}"
-      tags: repository_configuration
+    #- name: ensures listed repositories are present
+    #  apt_repository:
+    #    repo: "{{ item.repo }}"
+    #    filename: "{{ item.filename }}"
+    #    update_cache: false
+    #  loop: "{{ apt_sources }}"
+    #  tags: repository_configuration
 
-    - name: ensures pop-os supports i386 architecture packages (for Steam Proton)
-      command: dpkg --add-architecture i386
-      changed_when: false
-      tags: repository_configuration
+    #- name: ensures pop-os supports i386 architecture packages (for Steam Proton)
+    #  command: dpkg --add-architecture i386
+    #  changed_when: false
+    #  tags: repository_configuration
 
-    - name: ensures added PPAs and repos are cached
-      apt: update_cache=yes
-      tags: repository_configuration
+    #- name: ensures added PPAs and repos are cached
+    #  apt: update_cache=yes
+    #  tags: repository_configuration
 
     ### PACKAGES INSTALLATION PHASE
 
@@ -143,17 +143,6 @@
         name: "{{ devel_packages_2 }}"
       tags: package_installation
 
-    - name: ensures packages that needs dpkg --force-overwrite are installed
-      apt:
-        name: "{{ dpkg_force_overwrite_packages }}"
-        dpkg_options: "force-confdef,force-confold,force-overwrite"
-      tags: package_installation
-
-    - name: ensures macos emulation dependencies are installed
-      apt:
-        name: "{{ macos_dependencies }}"
-      tags: package_installation
-
     - name: ensures elixir dependencies are installed
       apt:
         name: "{{ elixir_dependencies }}"
@@ -184,16 +173,6 @@
         name: "{{ postgresql_packages }}"
       tags: package_installation
 
-    - name: verifies if this computer has a battery
-      shell: >
-        set -o pipefail &&
-        upower -i `upower -e | grep 'BAT'`
-      args:
-        executable: /bin/bash
-      register: battery
-      changed_when: false
-      tags: package_installation
-
     - name: ensures virtualization packages are installed [long task]
       apt:
         name: "{{ virtualization_packages }}"
@@ -222,16 +201,6 @@
     - name: ensures vpn dependencies are installed
       apt:
         name: "{{ vpn_dependencies }}"
-      tags: package_installation
-
-    # npm package installation
-
-    - name: ensures npm packages are installed
-      npm:
-        name: "{{ item.name }}"
-        production: "{{ item.production }}"
-        global: true
-      with_items: "{{ npm_packages }}"
       tags: package_installation
 
     ### BINARIES INSTALLATION
@@ -360,14 +329,14 @@
       when: not kustomize.stat.exists
       tags: bin_installation
 
-    - name: ensures youtube-dl is installed
-      shell: >
-        set -o pipefail &&
-        curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&
-        chmod a+rx /usr/local/bin/youtube-dl
-      args:
-        executable: /bin/bash
-      tags: bin_installation
+    # - name: ensures youtube-dl is installed
+    #   shell: >
+    #     set -o pipefail &&
+    #     curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl &&
+    #     chmod a+rx /usr/local/bin/youtube-dl
+    #   args:
+    #     executable: /bin/bash
+    #   tags: bin_installation
 
     # VPN config
 
@@ -380,7 +349,7 @@
 
     - name: finds Checkpoint VPN client installer
       get_url:
-        url: 'https://dl3.checkpoint.com/paid/72/72c2c91791690927da0586ec873430cf/snx_install_linux30.sh?HashKey=1629471075_0b3dec05655e6a6ebc4462add62b1e54&xtn=.sh'
+        url: 'https://vpnportal.aktifbank.com.tr/SNX/INSTALL/snx_install.sh'
         dest: "{{ src_dir }}/files/local/bin/snx_install_linux30.sh"
       when: not snx.stat.exists
       tags: bin_installation
@@ -473,13 +442,6 @@
         force: false
         remote_src: true
         mode: u=rw,g=rw,o=r
-      tags: configuration
-
-    # Horrible temporary solution to the bug in Ubuntu/PopOS brightnessctl
-    - name: ensures brightnessctl can alter display parameters
-      file:
-        mode: u+s
-        path: /usr/bin/brightnessctl
       tags: configuration
 
     # CERTIFICATION INSTALLATION PHASE
@@ -629,6 +591,10 @@
       systemd: name=ssh enabled=no
       tags: configuration
 
+    # Configure flatpak
+    - name: ensures flathub is configured
+      shell: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
 ###################################################################################################
 ### USER WORKSPACE CONFIGURATION PHASE
 ###################################################################################################
@@ -649,6 +615,12 @@
     git_name: "{{ git_user_name }}"
 
   tasks:
+
+
+    # Configure flatpak
+
+    - name: ensures flathub is configured
+      shell: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
     # Configure desktop environment
 
@@ -700,7 +672,7 @@
         - git config --global delta.side-by-side true
         - git config --global delta.dark true
         - git config --global core.pager "delta"
-        - git config --global core.editor "flatpak run --file-forwarding re.sonny Commit @@"
+        - git config --global core.editor "flatpak run --file-forwarding re.sonny.Commit @@"
         - git config --global pull.rebase false
       tags: local_configuration
 
@@ -736,65 +708,6 @@
         loop_var: plugin
       tags: user_package_installation
 
-    # Configures Phoenix
-
-    - name: check Hex
-      shell: >
-        set -o pipefail &&
-        source "{{ user_dir }}/.asdf/asdf.sh" &&
-        mix hex
-      args:
-        executable: /bin/bash
-      ignore_errors: true
-      changed_when: false
-      register: hex
-      tags: local_configuration
-
-    - name: ensures Hex is installed
-      shell: >
-        set -o pipefail &&
-        source "{{ user_dir }}/.asdf/asdf.sh" &&
-        mix local.hex --force
-      args:
-        executable: /bin/bash
-      when: "'could not be found' in hex.stderr"
-      tags: local_configuration
-
-    - name: check Phoenix
-      shell: >
-        set -o pipefail &&
-        source "{{ user_dir }}/.asdf/asdf.sh" &&
-        mix phx.new
-      args:
-        executable: /bin/bash
-      ignore_errors: true
-      changed_when: false
-      register: phx
-      tags: local_configuration
-
-    - name: ensures Phoenix is installed
-      shell: >
-        set -o pipefail &&
-        source "{{ user_dir }}/.asdf/asdf.sh" &&
-        echo y | mix archive.install hex phx_new 1.6.6
-      args:
-        executable: /bin/bash
-      when: "'could not be found' in phx.stderr"
-      tags: local_configuration
-
-    # npm package installation
-
-    - name: ensures npm packages are installed
-      shell: >
-        set -o pipefail &&
-        source "{{ user_dir }}/.asdf/asdf.sh" &&
-        asdf reshim &&
-        $(asdf which npm) install -g "{{ item.name }}"
-      args:
-        executable: /bin/bash
-      loop: "{{ npm_packages }}"
-      tags: local_configuration
-
     # Configures gnome-shell
 
     - name: gnome-shell extensions installation
@@ -812,28 +725,14 @@
       loop: "{{ gnome_settings }}"
       tags: local_configuration
 
-    # Configures VSCode
-
-    - name: ensures config directory exists
-      file:
-        path: "{{ user_dir }}/.config/Code/User"
-        state: directory
-        recurse: true
-      tags: local_configuration
-
-    - name: ensures vscode extensions are installed
-      command: code --install-extension "{{ item }}"
-      with_items: "{{ vscode_extensions }}"
-      tags: user_package_installation
-
     # Flatpaks
 
-    - name: ensures flatpak packages are present
-      flatpak:
-        name: "{{ item }}"
-        method: user
-      with_items: "{{ flatpak_packages }}"
-      tags: user_package_installation
+    #- name: ensures flatpak packages are present
+    #  flatpak:
+    #    name: "{{ item }}"
+    #    method: user
+    #  with_items: "{{ flatpak_packages }}"
+    #  tags: user_package_installation
 
     # AppImages configuration
 
