@@ -33,6 +33,7 @@
         state: present
         validate_certs: false
       with_items: "{{ ppas }}"
+      ignore_errors: true
       tags: repository_configuration
 
     - name: ensures repositories gpg keys are present (using key file)
@@ -66,6 +67,7 @@
 
     - name: ensures added PPAs and repos are cached
       apt: update_cache=yes
+      ignore_errors: true
       tags: repository_configuration
 
     ### PACKAGES INSTALLATION PHASE
@@ -73,13 +75,6 @@
     - name: ensures nodejs dependencies are installed
       apt:
         name: "{{ node_dependencies }}"
-      tags: package_installation
-
-    - name: updates npm
-      npm:
-        name: npm
-        global: true
-        state: present
       tags: package_installation
 
     - name: ensures python packages are installed
@@ -147,11 +142,6 @@
       apt:
         name: "{{ dpkg_force_overwrite_packages }}"
         dpkg_options: "force-confdef,force-confold,force-overwrite"
-      tags: package_installation
-
-    - name: ensures macos emulation dependencies are installed
-      apt:
-        name: "{{ macos_dependencies }}"
       tags: package_installation
 
     - name: ensures elixir dependencies are installed
@@ -222,16 +212,6 @@
     - name: ensures vpn dependencies are installed
       apt:
         name: "{{ vpn_dependencies }}"
-      tags: package_installation
-
-    # npm package installation
-
-    - name: ensures npm packages are installed
-      npm:
-        name: "{{ item.name }}"
-        production: "{{ item.production }}"
-        global: true
-      with_items: "{{ npm_packages }}"
       tags: package_installation
 
     ### BINARIES INSTALLATION
@@ -378,12 +358,13 @@
       changed_when: false
       tags: bin_installation
 
-    - name: finds Checkpoint VPN client installer
-      get_url:
-        url: 'https://dl3.checkpoint.com/paid/72/72c2c91791690927da0586ec873430cf/snx_install_linux30.sh?HashKey=1629471075_0b3dec05655e6a6ebc4462add62b1e54&xtn=.sh'
-        dest: "{{ src_dir }}/files/local/bin/snx_install_linux30.sh"
-      when: not snx.stat.exists
-      tags: bin_installation
+    #- name: finds Checkpoint VPN client installer
+    #  get_url:
+    #    url: 'https://dl3.checkpoint.com/paid/72/72c2c91791690927da0586ec873430cf/snx_install_linux30.sh?HashKey=1629471075_0b3dec05655e6a6ebc4462add62b1e54&xtn=.sh'
+    #    https://supportcenter.checkpoint.com/supportcenter/portal/user/anon/page/default.psml/media-type/html?action=portlets.DCFileAction&eventSubmit_doGetdcdetails=&fileid=22824 then download
+    #    dest: "{{ src_dir }}/files/local/bin/snx_install_linux30.sh"
+    #  when: not snx.stat.exists
+    #  tags: bin_installation
 
     - name: ensures snx_install_linux30.sh is executable
       file:
@@ -780,19 +761,6 @@
       args:
         executable: /bin/bash
       when: "'could not be found' in phx.stderr"
-      tags: local_configuration
-
-    # npm package installation
-
-    - name: ensures npm packages are installed
-      shell: >
-        set -o pipefail &&
-        source "{{ user_dir }}/.asdf/asdf.sh" &&
-        asdf reshim &&
-        $(asdf which npm) install -g "{{ item.name }}"
-      args:
-        executable: /bin/bash
-      loop: "{{ npm_packages }}"
       tags: local_configuration
 
     # Configures gnome-shell

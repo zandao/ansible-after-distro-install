@@ -74,7 +74,6 @@ browser_packages:
   - chrome-gnome-shell
 
 deb_packages:
-  - package: "http://ppa.launchpad.net/atareao/atareao/ubuntu/pool/main/c/cpu-g/cpu-g_0.16.3-1ubuntu0_all.deb"
   - package: "http://packages.linuxmint.com/pool/main/l/linuxmint-keyring/linuxmint-keyring_2016.05.26_all.deb"
     check_gpg: false
   - package: "https://zoom.us/client/latest/zoom_amd64.deb"
@@ -129,19 +128,13 @@ desktop_packages_1:
   - libavcodec-extra
   - libreoffice-style-sifr
 
-destop_packages_2:
-  - i3xrocks-bluetooth
-  - i3xrocks-disk-capacity
-  - i3xrocks-focused-window-name
-  - i3xrocks-memory
-  - i3xrocks-wifi
+desktop_packages_2:
   - light
   - numlockx
   - pdfarranger
   - qbittorrent
   - qt5-style-kvantum
   - qt5-style-kvantum-themes
-  - regolith-desktop-standard
   - telegram-cli
   - telegram-desktop
   - xclip
@@ -194,15 +187,13 @@ devel_packages_1:
   - discord
   - dos2unix
   - expect
-  - gcc-8
-  - g++-8
+  - gcc
+  - g++
   - git
   - git-extras
   - gpick
 
 devel_packages_2:
-  - gcc-9
-  - g++-9
   - luarocks
   - meld
   - meson
@@ -225,7 +216,7 @@ elixir_dependencies:
   - default-jdk
   - libssl-dev
   - libssl-doc
-  - libssl1.1
+  - libssl3
   - libwxbase3.0-0v5
   - libwxbase3.0-dev
   - libwxgtk-media3.0-gtk3-0v5
@@ -425,24 +416,17 @@ node_dependencies:
   - nodejs
   - npm
 
-npm_packages:
-  - {name: "bash-language-server", production: "yes"}
-  - {name: "linux-window-session-manager", production: "yes"}
-  - {name: "alacritty-themes", production: "yes"}
-
 postgresql_packages:
-  - postgresql-13
+  - postgresql-14
   - postgresql-common
   - postgresql-contrib
-  - postgresql-client-13
+  - postgresql-client-14
 
 ppas:
   - ppa:git-core/ppa
   - ppa:appimagelauncher-team/stable
   - ppa:regolith-linux/release
   - ppa:jgmath2000/et
-  - ppa:flexiondotorg/quickemu
-  - ppa:yannick-mauray/quickgui
 
 pre_config_packages:
   - lsb-base
@@ -500,7 +484,6 @@ system_tools_packages_1:
   - bleachbit
   - chkservice
   - cmake
-  - cpu-g
   - dkms
   - et
   - fzf
@@ -510,7 +493,6 @@ system_tools_packages_1:
   - gparted
   - gpg
   - hardinfo
-  - hddtemp
   - htop
   - hwinfo
   - libappimage0
