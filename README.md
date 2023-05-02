@@ -1,4 +1,4 @@
-# Ansible workstation configuration to be used after Pop!OS 21.10 installation
+# Ansible workstation configuration to be used after Pop!OS 22.04 installation
 
 Script to configure my java, python and elixir developer workstation on Pop!OS 21.10
 
